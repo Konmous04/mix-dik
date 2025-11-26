@@ -91,21 +91,24 @@ public class Simulator {
         }
     }
 
-    public Statistics printStatistics(){
+    public void printStatistics(){
         System.out.println("Total Packets Created: " + totalPacketsCreated);
         System.out.println("Total Packets Sent: " + totalPacketsSent);
         System.out.println("Total Packets Lost: " + totalPacketsLost);
 
+        Statistics st = new Statistics();
+
         double averageDelay = (totalPacketsSent == 0) ? 0 : (double) totalDelay / totalPacketsSent;
+        st.setAlist(averageDelay);
         System.out.println("Average delay: " + averageDelay);
 
         double throughput = (double) totalPacketsSent / timeSlots;
+        st.setTlist(throughput);
         System.out.println("Throughput: " + throughput);
 
         double lossRate = (double) totalPacketsLost / totalPacketsCreated;
+        st.setLlist(lossRate);
         System.out.println("Packet loss rate: " + lossRate);
-
-        return new Statistics(averageDelay, throughput, lossRate);
     }
 
     public void successfulTransmition(Station st, int currentTime){

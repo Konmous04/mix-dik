@@ -1,11 +1,39 @@
-public class Statistics {
-    private double averageDelay;
-    private double throughput;
-    private double lossRate;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Statistics(double averageDelay, double throughput, double lossRate){
-        this.averageDelay = averageDelay;
-        this.throughput = throughput;
-        this.lossRate = lossRate;
+public class Statistics {
+
+    private List<Double> alist;
+    private List<Double> tlist;
+    private List<Double> llist;
+
+    public Statistics(){
+        alist = new ArrayList<>();
+        tlist = new ArrayList<>();
+        llist = new ArrayList<>();
+    }
+
+    public void setAlist(double x){
+        alist.add(x);
+    }
+
+    public List<Double> getAlist(){
+        return alist;
+    }
+
+    public void setTlist(double x){
+        tlist.add(x);
+    }
+
+    public List<Double> getTlist(){
+        return tlist;
+    }
+
+    public void setLlist(double x){
+        llist.add(x);
+    }
+
+    public List<Double> getLlist(){
+        return llist;
     }
 }
