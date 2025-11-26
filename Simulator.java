@@ -12,6 +12,7 @@ public class Simulator {
     private int totalPacketsSent;
     private int totalPacketsLost;
     private long totalDelay;
+    private int pid = 1;
 
     public Simulator(int timeSlots, double arrivingProb){
         this.timeSlots = timeSlots;
@@ -45,11 +46,49 @@ public class Simulator {
     }
 
     private void handleArrivals(int currentTime){
-
+        for (Station st : stations){
+            if(rand.nextDouble()<arrivingProb){
+                Packets p = new Packets("P"+pid, pid, currentTime, st.getId());
+                pid++;
+                totalPacketsCreated++;
+                if(!st.addPacket(p)){
+                    totalPacketsLost++;
+                }
+            }
+        }
     }
 
     private void handleTransmissions(int currentTime){
+        boolean[] wantsToTransmit = new boolean[stations.size()];
+        for(int i=0; i< stations.size(); i++){
+            Station st = stations.get(i);
+            if (st.peekPacket()==null){
+                wantsToTransmit[i] = false;
+                continue;
+            }
+            wantsToTransmit[i] = (rand.nextDouble()<transmitProb);
+        }
 
+        for(int i=0; i<stations.size();i+=2){
+            int a = i;
+            int b = i+1;
+            boolean A = wantsToTransmit[a];
+            boolean B = wantsToTransmit[b];
+
+            if(!A && !B)
+                continue;
+            if(A && !B){
+                successfulTransmition(stations.get(a), currentTime);
+                continue;
+            }
+            if(!A && B){
+                successfulTransmition(stations.get(b), currentTime);
+                continue;
+            }
+            if(A && B){
+
+            }
+        }
     }
 
     public void printStatistics(){
@@ -67,6 +106,13 @@ public class Simulator {
         System.out.println("Packet loss rate: " + lossRate);
     }
 
-
+    public void successfulTransmition(Station st, int currentTime){
+        Packets packet = st.pollPacket();
+        if (packet != null){
+            int delay = currentTime-packet.getArrivalTime();
+            totalDelay += delay;
+            totalPacketsSent++;
+        }
+    }
 
 }

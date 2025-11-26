@@ -34,4 +34,8 @@ public class Station {
     public Packets pollPacket(){
         return buffer.poll();
     }
+
+    public Packets peekPacket(){
+        return buffer.peek();
+    }
 }
