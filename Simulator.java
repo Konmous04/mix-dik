@@ -91,7 +91,7 @@ public class Simulator {
         }
     }
 
-    public void printStatistics(){
+    public Statistics printStatistics(){
         System.out.println("Total Packets Created: " + totalPacketsCreated);
         System.out.println("Total Packets Sent: " + totalPacketsSent);
         System.out.println("Total Packets Lost: " + totalPacketsLost);
@@ -104,6 +104,8 @@ public class Simulator {
 
         double lossRate = (double) totalPacketsLost / totalPacketsCreated;
         System.out.println("Packet loss rate: " + lossRate);
+
+        return new Statistics(averageDelay, throughput, lossRate);
     }
 
     public void successfulTransmition(Station st, int currentTime){
