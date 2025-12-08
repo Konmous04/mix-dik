@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class Simulator {
     private int timeSlots;
@@ -91,24 +93,26 @@ public class Simulator {
         }
     }
 
-    public void printStatistics(){
+    public BlockingQueue<Double> printStatistics(){
         System.out.println("Total Packets Created: " + totalPacketsCreated);
         System.out.println("Total Packets Sent: " + totalPacketsSent);
         System.out.println("Total Packets Lost: " + totalPacketsLost);
 
-        Statistics st = new Statistics();
+        BlockingQueue<Double> l = new ArrayBlockingQueue<>(3);
 
         double averageDelay = (totalPacketsSent == 0) ? 0 : (double) totalDelay / totalPacketsSent;
-        st.setAlist(averageDelay);
+        l.add(averageDelay);
         System.out.println("Average delay: " + averageDelay);
 
         double throughput = (double) totalPacketsSent / timeSlots;
-        st.setTlist(throughput);
+        l.add(throughput);
         System.out.println("Throughput: " + throughput);
 
         double lossRate = (double) totalPacketsLost / totalPacketsCreated;
-        st.setLlist(lossRate);
+        l.add(lossRate);
         System.out.println("Packet loss rate: " + lossRate);
+
+        return l;
     }
 
     public void successfulTransmition(Station st, int currentTime){
