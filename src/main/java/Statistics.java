@@ -1,3 +1,5 @@
+/*αυτή η κλάση περιέχει λίστες όπου αποθηκεύονται τα στατιστικά*/
+
 import java.util.ArrayList;
 import java.util.List;
 

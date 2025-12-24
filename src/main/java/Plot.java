@@ -1,3 +1,5 @@
+/*Αυτήν η κλάση κατασκευάζει το παράθυρο που φαίνεται στο τέλος, όπου βλέπουμε το πώς κυμαίνονται οι τιμές*/
+
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;

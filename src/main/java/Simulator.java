@@ -1,3 +1,5 @@
+/*Αυτήν η κλάση τρέχει όλη την προσομοίωση*/
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,6 +28,7 @@ public class Simulator {
         initStations();
     }
 
+    //εδώ κατασκευάζουμε τα stations μας
     private void initStations(){
         stations.add(new Station("Pc1", 1, 1));
         stations.add(new Station("Pc2", 2, 1));
@@ -37,6 +40,7 @@ public class Simulator {
         stations.add(new Station("Pc8", 8, 4));
     }
 
+    /*για κάθε χρονικό slot διαχειρίζεται τις αφίξης των πακέτων, τις συγκρούσεις και τις μεταδόσεις*/
     public void run(){
 
         for (int t=0; t<timeSlots; t++){
@@ -47,6 +51,8 @@ public class Simulator {
 
     }
 
+    /* Για κάθε station με πιθανότητα p δημιουργείται ένα νέο πακέτο
+       και αν η ουρά είναι γεμάτη, το πακέτο χάνεται*/
     private void handleArrivals(int currentTime){
         for (Station st : stations){
             if(rand.nextDouble()<arrivingProb){
@@ -60,6 +66,12 @@ public class Simulator {
         }
     }
 
+    /* Κάθε station που έχει πακέτο επιχειρεί μετάδοση με πιθανότητα 0.5
+       Οι stations ελέγχονται ανά ζεύγη:
+       - Αν μεταδώσει μόνο ένας -> επιτυχία
+       - Αν μεταδώσουν και οι δύο -> σύγκρουση
+       - Αν δεν μεταδώσει κανένας -> τίποτα
+     */
     private void handleTransmissions(int currentTime){
         boolean[] wantsToTransmit = new boolean[stations.size()];
         for(int i=0; i< stations.size(); i++){
@@ -93,6 +105,7 @@ public class Simulator {
         }
     }
 
+    /*εδώ υπολογίζονται και εκτυπώνονται στα στατιστικά*/
     public BlockingQueue<Double> printStatistics(){
         System.out.println("Total Packets Created: " + totalPacketsCreated);
         System.out.println("Total Packets Sent: " + totalPacketsSent);
@@ -115,6 +128,11 @@ public class Simulator {
         return l;
     }
 
+    /*Επιτυχής μετάδοση πακέτου:
+      - Αφαιρεί το πακέτο από την ουρά
+      - Υπολογίζει την καθυστέρηση
+      - Ενημερώνει τα στατιστικά
+    */
     public void successfulTransmition(Station st, int currentTime){
         Packets packet = st.pollPacket();
         if (packet != null){

@@ -1,3 +1,5 @@
+/*αυτή η κλάση κατασκευάζει τα stations*/
+
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 

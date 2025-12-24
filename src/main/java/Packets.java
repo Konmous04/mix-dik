@@ -1,3 +1,4 @@
+/*Αυτή η κλάση κατασκευάζει τα πακέτα που χρησιμοποιούμε για την προσομοίωση*/
 public class Packets {
     private final String name;
     private final int id;
